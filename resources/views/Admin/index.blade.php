@@ -17,10 +17,24 @@
       <td>{{$post->title}}</td>
       <td>{{$post->body}}</td>
       <td>{{$post->slug}}</td>
+      <td><a class="btn btn-primary" href="{{route('admin.posts.show', $post)}}">View</a></td>
+      <td><a class="btn btn-primary" href="{{route('admin.posts.edit', $post)}}">Edit</a></td>
+      <td>
+        <form action="{{route('admin.posts.destroy', $post)}}" method="post">
+          @csrf
+          @method('DELETE')
+          <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+
+      
+      
+      </td>
     </tr>
   @endforeach
-  </tbody>
-      
+  </tbody>   
 </table>
+<div>
+  <a class="btn btn-primary" href="{{route('admin.posts.create', $post)}}">Crea un Post</a>
+</div>
 
 @endsection
