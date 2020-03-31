@@ -16,6 +16,7 @@
       <td>{{$post->title}}</td>
       <td>{{$post->body}}</td>
       <td>{{$post->slug}}</td>
+      <td><a class="btn btn-primary" href="{{route('admin.posts.index', $post)}}">Home</a></td>
     </tr>
   </tbody>
       

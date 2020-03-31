@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Post;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class PostController extends Controller
 {
     /**
@@ -26,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.create');
     }
 
     /**
@@ -37,7 +38,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string|max:255',
+        ]);
+        $data = $request->all();
+        $newPost = new Post;
+        $newPost->fill($data);
+
+        $newPost->user_id = Auth::id();
+        $newPost->slug = Str::finish(Str::slug($newPost->title),rand(1, 1000000));
+
+        $newPost->save();
+        return redirect()->route('admin.posts.index');
+        
     }
 
     /**
@@ -60,7 +74,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('Admin.edit', compact('post'));
     }
 
     /**
@@ -70,9 +84,21 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string|max:255',
+        ]);
+        $data = $request->all();
+        $post->user_id = Auth::id();
+        $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
+
+        $updated = $post->update($data);
+        if (!$updated) {
+            return redirect()->back();
+        }
+        return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -83,11 +109,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if (empty($post)) {
-            abort('404');
-        }
-        $post->delete();
-        return redirect()->route('Admin.index');
+        // if (empty($post)) {
+        //     abort('404');
+        // }
+        // $post->delete();
+        // return redirect()->route('admin.posts.index');
         
     }
 }

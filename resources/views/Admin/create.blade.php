@@ -1,26 +1,18 @@
 @extends('layouts.app')
 @section('content')
     
-  <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">user_id</th>
-      <th scope="col">title</th>
-      <th scope="col">body</th>
-      <th scope="col">slug</th>
-    </tr>
-  </thead>
-  <tbody>
-  @foreach ($posts as $post)
-    <tr>
-      <th scope="row">{{$post->id}}</th>
-      <td>{{$post->title}}</td>
-      <td>{{$post->body}}</td>
-      <td>{{$post->slug}}</td>
-    </tr>
-  @endforeach
-  </tbody>
-      
-</table>
+  <form action="{{route('admin.posts.store')}}" method="post">
+    @csrf
+    @method('POST')
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input class="form-control" type="text" name="title">
+    </div>
+    <div class="form-group">
+      <label for="body">body</label>
+      <textarea class="form-control" name="body" id="body" cols="30" rows="10"></textarea>
+      <button class="btn btn-success" type="submit">Salva</button>
+    </div>
+  </form>
 
 @endsection
