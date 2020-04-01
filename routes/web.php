@@ -22,7 +22,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::get('/postGuest', 'PostController@index')->name('posts');
+Route::get('/posts', 'PostController@index')->name('posts.index');
+Route::get('/show/{slug}', 'PostController@show')->name('post.show');
+
+Route::post('/store', 'CommentController@store')->name('comment.store');
 
 
 Route::name('admin.')

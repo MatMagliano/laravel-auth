@@ -45,7 +45,6 @@ class PostController extends Controller
         $data = $request->all();
         $newPost = new Post;
         $newPost->fill($data);
-
         $newPost->user_id = Auth::id();
         $newPost->slug = Str::finish(Str::slug($newPost->title),rand(1, 1000000));
 

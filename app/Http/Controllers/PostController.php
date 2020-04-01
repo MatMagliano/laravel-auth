@@ -14,8 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $post = Post::all();
-        // dd($post);
+        $posts = Post::all();
+        return view('guest.index', compact('posts'));
     }
 
     /**
@@ -25,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -36,7 +36,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -45,9 +45,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $post = Post::where('slug', $slug)->first();
+        
+        return view('guest.show', compact('post'));
     }
 
     /**
