@@ -4,7 +4,7 @@
   <table class="table">
   <thead>
     <tr>
-      <th scope="col">user_id</th>
+      <th scope="col">post_id</th>
       <th scope="col">title</th>
       <th scope="col">body</th>
       <th scope="col">slug</th>

@@ -14,14 +14,14 @@ class CommentsTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        $postCount = count(Post::all()->toArray()) - 1;
+        
         for ($i = 0; $i < 10; $i++) {
             $newComment = new Comment;
             $newComment->name = $faker->name;
             $newComment->email = $faker->email;
             $newComment->title = $faker->sentence(3);
             $newComment->body = $faker->text(150);
-            $newComment->post_id = rand(1, $postCount);
+            $newComment->post_id = Post::inRandomOrder()->first()->id;
             $newComment->save();
         }
     }
