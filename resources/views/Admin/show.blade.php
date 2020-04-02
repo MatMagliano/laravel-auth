@@ -24,6 +24,7 @@
   </tbody>
       
 </table>
+<img src="{{asset('storage/' . $post->image)}}" alt="">
 <div class="comments">
   @forelse ($post->comments as $comment)
     <ul class="list-group">

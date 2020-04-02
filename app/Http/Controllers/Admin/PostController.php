@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 class PostController extends Controller
 {
     /**
@@ -46,8 +48,10 @@ class PostController extends Controller
             'body' => 'required|string|max:255',
         ]);
         $data = $request->all();
+        $path = Storage::disk('public')->put('images', $data['image']);
         $newPost = new Post;
         $newPost->fill($data);
+        $newPost->image = $path;
         $newPost->user_id = Auth::id();
         $newPost->slug = Str::finish(Str::slug($newPost->title),rand(1, 1000000));
         $saved = $newPost->save();
