@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Post;
+use App\Tag;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -27,7 +28,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.create');
+        $tags = Tag::all();
+        return view('admin.create', compact('tags'));
     }
 
     /**
@@ -47,7 +49,6 @@ class PostController extends Controller
         $newPost->fill($data);
         $newPost->user_id = Auth::id();
         $newPost->slug = Str::finish(Str::slug($newPost->title),rand(1, 1000000));
-
         $newPost->save();
         return redirect()->route('admin.posts.index');
         
@@ -111,7 +112,9 @@ class PostController extends Controller
         if (empty($post)) {
             abort('404');
         }
+        $post->comments()->delete();
         $post->delete();
+
         return redirect()->route('admin.posts.index');
         
     }

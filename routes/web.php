@@ -26,7 +26,7 @@ Route::get('/posts', 'PostController@index')->name('posts.index');
 Route::get('/show/{slug}', 'PostController@show')->name('post.show');
 
 Route::post('/store', 'CommentController@store')->name('comment.store');
-
+Route::post('/comments/create', 'CommentController@store')->name('comments.store');
 
 Route::name('admin.')
 ->prefix('admin')
