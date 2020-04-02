@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-    
   <table class="table">
   <thead>
     <tr>
@@ -8,6 +7,7 @@
       <th scope="col">title</th>
       <th scope="col">body</th>
       <th scope="col">slug</th>
+      <th scope="col">tag</th>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +16,9 @@
       <td>{{$post->title}}</td>
       <td>{{$post->body}}</td>
       <td>{{$post->slug}}</td>
+      @foreach ($post->tags as $tag)
+        <td>{{$tag->name}}</td>         
+      @endforeach
       <td><a class="btn btn-primary" href="{{route('admin.posts.index', $post)}}">Home</a></td>
     </tr>
   </tbody>

@@ -40,6 +40,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string|max:255',
@@ -49,7 +50,18 @@ class PostController extends Controller
         $newPost->fill($data);
         $newPost->user_id = Auth::id();
         $newPost->slug = Str::finish(Str::slug($newPost->title),rand(1, 1000000));
-        $newPost->save();
+        $saved = $newPost->save();
+        if(!$saved) {
+            return redirect()->back();
+        }
+
+        $tags = $data['tags'];
+        if(!empty($tags)) {
+            $newPost->tags()->attach($tags);
+        }
+
+
+
         return redirect()->route('admin.posts.index');
         
     }
@@ -113,6 +125,7 @@ class PostController extends Controller
             abort('404');
         }
         $post->comments()->delete();
+        $post->tags()->detach();
         $post->delete();
 
         return redirect()->route('admin.posts.index');
